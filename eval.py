@@ -163,12 +163,16 @@ def evaluate_benchmark(
         with res_file_path_eval.open("w", encoding="utf8") as f:
             for line in filtered_res_lines:
                 f.write(line + "\n")
+        if verbosity > 1:
+            print(f"Executing {res_file_path_eval} file...")
         result = sp.run(
             ["bash", str(res_file_path_eval), method, str(res_format)],
             check=True,
             capture_output=True,
             text=True,
         )
+        if verbosity > 1:
+            print(f"Finished executing {res_file_path_eval} file.")
         try:
             res_data: list[tuple[int, float, float]] = parse_res_file(
                 result.stdout, strictmode, verbosity
