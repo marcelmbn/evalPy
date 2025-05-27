@@ -4,6 +4,8 @@ Filter a .res file to include only reactions with all valid species.
 
 import re
 
+from tqdm import tqdm
+
 
 def extract_species_from_path(path: str) -> list[str]:
     """
@@ -58,7 +60,7 @@ def filter_res_file(
     result = []
     list_reaction_species: list[list[str]] = []
     list_stochiometries: list[list[int]] = []
-    for line in res_lines:
+    for line in tqdm(res_lines, desc="Filtering .res file...", unit="line"):
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
             result.append(line)
