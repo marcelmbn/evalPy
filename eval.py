@@ -302,7 +302,7 @@ def main(parsed_args: argparse.Namespace) -> int:
         for key, value in stats.items():
             # print in fixed width format
             if isinstance(value, float):
-                print(f"{key:<15}: {value:>.4f}")
+                print(f"{key:<15}: {value:<.4f}")
             else:
                 print(f"{key:<15}: {value}")
     # generate pandas DataFrame from stats with "method" + all statistical measures as columns and the method and all values as one row
@@ -317,7 +317,7 @@ def main(parsed_args: argparse.Namespace) -> int:
     if parsed_args.write_to_csv:
         csv_file = Path(f"{parsed_args.method}_results.csv").resolve()
         benchmark_results.to_csv(csv_file, index=False, float_format="%.6f")
-        print(f"Results written to {csv_file}")
+        print(f"\nResults written to {csv_file}")
 
         stats_csv_file = Path(f"{parsed_args.method}_stats.csv").resolve()
         stats_df.to_csv(stats_csv_file, index=False, float_format="%.6f")
