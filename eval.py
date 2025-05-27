@@ -302,11 +302,9 @@ def main(parsed_args: argparse.Namespace) -> int:
         for key, value in stats.items():
             # print in fixed width format
             if isinstance(value, float):
-                print(f"{key:<15}: {value:<.4f}")
+                print(f"{key:<15}: {value:>10.4f}")
             else:
                 print(f"{key:<15}: {value}")
-    # generate pandas DataFrame from stats with "method" + all statistical measures as columns and the method and all values as one row
-
     stats_df = pd.DataFrame(
         [[parsed_args.method] + list(stats.values())],
         columns=["Method"] + list(stats.keys()),
