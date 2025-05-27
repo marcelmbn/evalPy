@@ -288,7 +288,7 @@ def main(parsed_args: argparse.Namespace) -> int:
     )
 
     print_benchmark_results.index += 1
-    if verbosity > 0:
+    if 0 < verbosity <= 2:
         print("\n### Results ###")
         print(print_benchmark_results)
     elif verbosity > 2:
