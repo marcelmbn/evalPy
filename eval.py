@@ -287,10 +287,11 @@ def main(parsed_args: argparse.Namespace) -> int:
         - print_benchmark_results["ReferenceValue"]
     )
 
+    print_benchmark_results.index += 1
     if verbosity > 0:
         print("\n### Results ###")
         print(print_benchmark_results)
-    if verbosity > 2:
+    elif verbosity > 2:
         with pd.option_context(
             "display.max_rows",
             None,
