@@ -11,7 +11,7 @@ import hashlib
 import numpy as np
 from tqdm import tqdm
 
-from .constants import BOHR2AA, PSE_SYMBOLS, PSE_NUMBERS, GMTKN55_DIRS
+from .constants import BOHR2AA, PSE_SYMBOLS, PSE_NUMBERS
 
 
 class Molecule:
@@ -34,7 +34,6 @@ class Molecule:
         self._atlist: np.ndarray = np.array([], dtype=int)
         self._xyz: np.ndarray = np.array([], dtype=float)
         self._ati: np.ndarray = np.array([], dtype=int)
-        self._subset: str = ""
 
         self.rng = np.random.default_rng()
 
@@ -79,11 +78,6 @@ class Molecule:
             if not first_line:
                 returnstr += "\n"
             returnstr += f"atomic number per index: {self._ati}"
-            first_line = False
-        if self._subset:
-            if not first_line:
-                returnstr += "\n"
-            returnstr += f"GMTKN55 subset: {self._subset}"
             first_line = False
         return returnstr
 
@@ -383,30 +377,6 @@ class Molecule:
             raise ValueError("Array must have one dimension.")
 
         self._atlist = value
-
-    @property
-    def subset(self) -> str:
-        """
-        Get the GMTKN55 subset of the molecule.
-
-        :return: The GMTKN55 subset of the molecule.
-        """
-        return self._subset
-
-    @subset.setter
-    def subset(self, value: str):
-        """
-        Set the GMTKN55 subset of the molecule.
-
-        :param value: The GMTKN55 subset to set.
-        :raise TypeError: If the value is not a string.
-        """
-        if not isinstance(value, str):
-            raise TypeError("String expected.")
-        if value not in GMTKN55_DIRS:
-            raise ValueError(f"'{value}' is not a valid GMTKN55 subset.")
-
-        self._subset = value
 
     def get_xyz_str(self) -> str:
         """
