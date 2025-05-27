@@ -127,7 +127,7 @@ def check_molecule_composition(
     allowed and forbidden elements.
     """
     allowed_mols: list[Molecule] = []
-    hide_progress = verbosity < 3
+    hide_progress = verbosity < 2
     for mol in tqdm(
         mols, desc="Checking composition...", unit="molecule", disable=hide_progress
     ):

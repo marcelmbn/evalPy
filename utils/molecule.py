@@ -708,7 +708,7 @@ def get_molecules_from_filesystem(verbosity: int) -> list[Molecule]:
     dir_path = Path.cwd().resolve()
     mol_dirs = [p for p in dir_path.iterdir() if p.is_dir()]
     # read all XYZ files in the directory
-    hide_progress = verbosity < 3
+    hide_progress = verbosity < 2
     for mol_dir in tqdm(
         mol_dirs,
         desc="Processing molecules from files...",
