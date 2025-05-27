@@ -312,7 +312,16 @@ def main(parsed_args: argparse.Namespace) -> int:
         columns=["Method"] + list(stats.keys()),
     )
     print("\n### Statistics DataFrame ###")
-    print(stats_df)
+    # print the DataFrame without index
+    print(stats_df.to_string(index=False))
+    if parsed_args.write_to_csv:
+        csv_file = Path(f"{parsed_args.method}_results.csv").resolve()
+        benchmark_results.to_csv(csv_file, index=False, float_format="%.6f")
+        print(f"Results written to {csv_file}")
+
+        stats_csv_file = Path(f"{parsed_args.method}_stats.csv").resolve()
+        stats_df.to_csv(stats_csv_file, index=False, float_format="%.6f")
+        print(f"Statistics written to {stats_csv_file}")
 
     return 0
 
