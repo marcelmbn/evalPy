@@ -303,6 +303,8 @@ def main(parsed_args: argparse.Namespace) -> int:
             # print in fixed width format
             if isinstance(value, float):
                 print(f"{key:<15}: {value:>10.4f}")
+            elif isinstance(value, int):
+                print(f"{key:<15}: {value:>10d}")
             else:
                 print(f"{key:<15}: {value}")
     stats_df = pd.DataFrame(
