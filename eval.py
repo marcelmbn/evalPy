@@ -280,9 +280,16 @@ def main(parsed_args: argparse.Namespace) -> int:
         res_file=parsed_args.res_file,
     )
 
+    print_benchmark_results = benchmark_results.copy(deep=True)
+    # add an additional column for the Deviation
+    print_benchmark_results["Deviation"] = (
+        print_benchmark_results["MethodValue"]
+        - print_benchmark_results["ReferenceValue"]
+    )
+
     if verbosity > 0:
         print("\n### Results ###")
-        print(benchmark_results)
+        print(print_benchmark_results)
     if verbosity > 2:
         with pd.option_context(
             "display.max_rows",
@@ -294,7 +301,7 @@ def main(parsed_args: argparse.Namespace) -> int:
             "display.max_colwidth",
             None,
         ):
-            print(benchmark_results)
+            print(print_benchmark_results)
 
     stats = statistical_measures(benchmark_results)
     if verbosity > 0:
