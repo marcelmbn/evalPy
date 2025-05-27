@@ -304,13 +304,16 @@ def main(parsed_args: argparse.Namespace) -> int:
         ):
             print(print_benchmark_results)
     # print the 10 largest absolute deviations
-    tmp = print_benchmark_results.copy(deep=True)
-    tmp["AbsDeviation"] = tmp["Deviation"].abs()
-    tmp = tmp.sort_values(by="AbsDeviation", ascending=False)
-    tmp = tmp.head(10)
+    print_benchmark_results["AbsDeviation"] = print_benchmark_results["Deviation"].abs()
+    print_benchmark_results = print_benchmark_results.sort_values(
+        by="AbsDeviation", ascending=False
+    )
+    print_benchmark_results = print_benchmark_results.head(10)
     print("\n### 10 Largest Absolute Deviations ###")
     print(
-        tmp[["Reaction", "Stochiometry", "ReferenceValue", "MethodValue", "Deviation"]]
+        print_benchmark_results[
+            ["Reaction", "Stochiometry", "ReferenceValue", "MethodValue", "Deviation"]
+        ]
     )
 
     stats = statistical_measures(benchmark_results)
