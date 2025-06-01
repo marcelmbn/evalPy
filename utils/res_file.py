@@ -117,7 +117,7 @@ def filter_res_file(
 
 
 def parse_res_file(
-    res_file_content: str, strictmode: bool, verbosity: int
+    res_file_content: str, strictmode: bool, max_difference: float, verbosity: int
 ) -> list[tuple[int, float, float]]:
     """
      Parse the result of a .res file execution.
@@ -141,7 +141,7 @@ def parse_res_file(
             try:
                 ref_energy = float(tokens[7].strip())
                 comp_energy = float(tokens[5].strip())
-                if abs(comp_energy - ref_energy) > 750:
+                if abs(comp_energy - ref_energy) > max_difference:
                     if verbosity > 1 and not strictmode:
                         print(
                             "Skipping line due to excessively large difference "

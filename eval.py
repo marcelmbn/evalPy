@@ -123,6 +123,14 @@ def get_args() -> argparse.Namespace:
         + "Default is '.res'. "
         + "If you want to evaluate, e.g., the RC results, use '.resRC'.",
     )
+    parser.add_argument(
+        "--max-deviation",
+        type=float,
+        required=False,
+        default=750.0,
+        help="Maximum allowed deviation in kcal/mol for the evaluation. "
+        + "If the deviation is larger, the reaction will be skipped and an error is assumed.",
+    )
     return parser.parse_args()
 
 
@@ -135,6 +143,7 @@ def evaluate_benchmark(
     res_format: int,
     strictmode: bool = False,
     res_file: str = ".res",
+    maxdeviation: float = 750.0,
 ) -> pd.DataFrame:
     """
     Evaluate a subset of GMTKN55 and return a dataframe.
@@ -175,7 +184,7 @@ def evaluate_benchmark(
             print(f"Finished executing {res_file_path_eval} file.")
         try:
             res_data: list[tuple[int, float, float]] = parse_res_file(
-                result.stdout, strictmode, verbosity
+                result.stdout, strictmode, maxdeviation, verbosity
             )
         except ValueError as e:
             print(
@@ -281,6 +290,7 @@ def main(parsed_args: argparse.Namespace) -> int:
         method=parsed_args.method,
         res_format=parsed_args.format,
         strictmode=parsed_args.strict,
+        maxdeviation=parsed_args.max_deviation,
         res_file=parsed_args.res_file,
     )
 
