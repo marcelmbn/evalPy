@@ -53,13 +53,13 @@ def extract_species_from_path(path: str) -> list[str]:
 
 def filter_res_file(
     res_lines: list[str], valid_species: set[str]
-) -> tuple[list[str], list[list[str]], list[list[int]]]:
+) -> tuple[list[str], list[list[str]], list[list[int | float]]]:
     """
     Filter the lines of a .res file to include only those with valid species.
     """
     result = []
     list_reaction_species: list[list[str]] = []
-    list_stochiometries: list[list[int]] = []
+    list_stochiometries: list[list[int | float]] = []
     for line in tqdm(res_lines, desc="Filtering .res file...", unit="line"):
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
@@ -85,11 +85,15 @@ def filter_res_file(
             species_tokens.append(token)
 
         stochiometry_start = tokens.index("x") + 1
-        stochiometry_values = []
+        stochiometry_values: list[int | float] = []
         for token in tokens[stochiometry_start:]:
             if token.startswith("$w"):
                 break
-            stochiometry_values.append(int(token))
+            try:
+                stoch: int | float = int(token)
+            except ValueError:
+                stoch = float(token)
+            stochiometry_values.append(stoch)
 
         species: list[str] = []
         for token in species_tokens:
