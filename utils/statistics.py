@@ -19,6 +19,8 @@ def statistical_measures(subset_data: pd.DataFrame) -> dict[str, int | float]:
         "MSE": np.mean(errors),
         "STDDEV": np.std(errors, ddof=1),
         "RMSD": np.sqrt(np.mean(errors**2)),
+        "relMAE": np.mean(np.abs(errors) / np.abs(subset_data["ReferenceValue"]))
+        * 100,
         "MAX": np.max(errors),
         "MIN": np.min(errors),
         "ErrRange": np.max(errors) - np.min(errors),
